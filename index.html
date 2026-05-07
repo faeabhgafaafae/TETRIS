@@ -1,29 +1,27 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modern Tetris Blazor</title>
-    <base href="/TETRIS/" />
-    <link rel="stylesheet" href="css/app.css" />
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <link href="TetrisBlazor.styles.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Tetris JS</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
-<body style="background-color: #202028; margin: 0; overflow: hidden;">
-    <div id="app">
-        <div style="color: white; display: flex; justify-content: center; align-items: center; height: 100vh;">
-            Loading...
+<body>
+    <div class="grid">
+        <canvas id="board"></canvas>
+        <div class="right-column">
+            <div class="next-container">
+                <div>NEXT</div>
+                <canvas id="next"></canvas>
+            </div>
+            <div class="stats">
+                <p>SCORE: <span id="score">0</span></p>
+                <p>LINES: <span id="lines">0</span></p>
+                <p>LEVEL: <span id="level">0</span></p>
+            </div>
+            <button id="play-button">PLAY</button>
         </div>
     </div>
-
-    <div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="." class="reload">Reload</a>
-        <span class="dismiss">🗙</span>
-    </div>
-    <script src="_framework/blazor.webassembly.js"></script>
+    <script type="module" src="js/tetris.js"></script>
 </body>
-
 </html>

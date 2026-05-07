@@ -11,7 +11,7 @@
 
 #### C#版 (移植版)
 - **フレームワーク:** Blazor WebAssembly (ASP.NET Core)
-- **言語:** C# 13 / .NET 10
+- **言語:** C# 13 / .NET 101
 - **UI:** Razor Components, CSS Grid
 
 ### アーキテクチャ (C#版)
