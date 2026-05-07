@@ -1,0 +1,40 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Publish app
+        run: dotnet publish TetrisBlazor/TetrisBlazor.csproj -c Release -o release
+
+      # GitHub Pagesで動作するようにベースURLをリポジトリ名に合わせる必要がある場合があります
+      # 今回はシンプルなデプロイ手順を提示します
+      
+      - name: Change base-tag in index.html to match GitHub Pages subpath
+        run: sed -i 's/<base href="\/" \/>/<base href="\/TETRIS\/" \/>/g' release/wwwroot/index.html
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: release/wwwroot
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+    
+    # 権限設定
+    permissions:
+      contents: read
+      pages: write
+      id-token: write

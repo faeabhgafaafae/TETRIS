@@ -1,0 +1,3 @@
+/workspaces/TETRIS/temp_release/TetrisBlazor.runtimeconfig.json
+/workspaces/TETRIS/temp_release/dotnet.js
+/workspaces/TETRIS/temp_release/web.config

@@ -1,0 +1,367 @@
+@page "/"
+@using TetrisBlazor.Models
+@using System.Timers
+@implements IDisposable
+
+<PageTitle>Modern Tetris Blazor - Neon Edition</PageTitle>
+
+<div class="game-container" @onkeydown="HandleKeyDown" tabindex="0" @ref="gameContainer">
+    <div class="grid">
+        <!-- Left Panel: Hold -->
+        <div class="side-panel">
+            <div class="panel-container">
+                <div class="panel-title">HOLD</div>
+                <div class="mini-grid">
+                    @if (heldPiece != null)
+                    {
+                        @for (int y = 0; y < 4; y++)
+                        {
+                            @for (int x = 0; x < 4; x++)
+                            {
+                                var color = GetHeldPieceCellColor(x, y);
+                                <div class="cell" style="background-color: @(string.IsNullOrEmpty(color) ? "transparent" : color)"></div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Center: Board -->
+        <div class="board-container">
+            <div class="board">
+                @for (int y = 0; y < TetrisConstants.ROWS; y++)
+                {
+                    @for (int x = 0; x < TetrisConstants.COLS; x++)
+                    {
+                        var cellInfo = GetCellInfo(x, y);
+                        <div class="cell @(cellInfo.IsGhost ? "ghost" : "")" 
+                             style="background-color: @(string.IsNullOrEmpty(cellInfo.Color) ? "transparent" : cellInfo.Color)">
+                        </div>
+                    }
+                }
+                @if (isGameOver)
+                {
+                    <div class="game-over">
+                        GAME OVER
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Right Panel: Next & Stats -->
+        <div class="side-panel">
+            <div class="panel-container">
+                <div class="panel-title">NEXT</div>
+                <div class="mini-grid">
+                    @if (nextPiece != null)
+                    {
+                        @for (int y = 0; y < 4; y++)
+                        {
+                            @for (int x = 0; x < 4; x++)
+                            {
+                                var color = GetNextPieceCellColor(x, y);
+                                <div class="cell" style="background-color: @(string.IsNullOrEmpty(color) ? "transparent" : color)"></div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <div class="stat-label">Score</div>
+                    <div class="stat-value">@score</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Lines</div>
+                    <div class="stat-value">@lines</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Level</div>
+                    <div class="stat-value">@level</div>
+                </div>
+            </div>
+
+            <button id="play-button" @onclick="Play">START GAME</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private Board board = new Board();
+    private Piece? currentPiece;
+    private Piece? nextPiece;
+    private Piece? heldPiece;
+    private bool canHold = true;
+    private int score = 0;
+    private int lines = 0;
+    private int level = 0;
+    private bool isGameOver = false;
+    private Timer? timer;
+    private double interval = 1000;
+    private List<char> bag = new List<char>();
+    private Random random = new Random();
+    private ElementReference gameContainer;
+
+    private class CellInfo
+    {
+        public string Color { get; set; } = string.Empty;
+        public bool IsGhost { get; set; } = false;
+    }
+
+    private CellInfo GetCellInfo(int x, int y)
+    {
+        // 1. Check current piece
+        if (currentPiece != null)
+        {
+            for (int dy = 0; dy < currentPiece.Shape.Length; dy++)
+            {
+                for (int dx = 0; dx < currentPiece.Shape[dy].Length; dx++)
+                {
+                    if (currentPiece.Shape[dy][dx] > 0 && currentPiece.X + dx == x && currentPiece.Y + dy == y)
+                    {
+                        return new CellInfo { Color = currentPiece.Color };
+                    }
+                }
+            }
+
+            // 2. Check ghost piece
+            int ghostY = board.GetGhostPosition(currentPiece);
+            for (int dy = 0; dy < currentPiece.Shape.Length; dy++)
+            {
+                for (int dx = 0; dx < currentPiece.Shape[dy].Length; dx++)
+                {
+                    if (currentPiece.Shape[dy][dx] > 0 && currentPiece.X + dx == x && ghostY + dy == y)
+                    {
+                        return new CellInfo { Color = "rgba(255, 255, 255, 0.2)", IsGhost = true };
+                    }
+                }
+            }
+        }
+
+        // 3. Check board grid
+        string boardColor = board.Grid[y][x];
+        return new CellInfo { Color = boardColor };
+    }
+
+    private string GetNextPieceCellColor(int x, int y)
+    {
+        if (nextPiece == null) return string.Empty;
+        if (y < nextPiece.Shape.Length && x < nextPiece.Shape[y].Length && nextPiece.Shape[y][x] > 0)
+        {
+            return nextPiece.Color;
+        }
+        return string.Empty;
+    }
+
+    private string GetHeldPieceCellColor(int x, int y)
+    {
+        if (heldPiece == null) return string.Empty;
+        if (y < heldPiece.Shape.Length && x < heldPiece.Shape[y].Length && heldPiece.Shape[y][x] > 0)
+        {
+            return heldPiece.Color;
+        }
+        return string.Empty;
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (isGameOver || currentPiece == null) return;
+
+        var nextPos = currentPiece.Clone();
+        bool moved = false;
+
+        switch (e.Key)
+        {
+            case "ArrowLeft":
+                nextPos.X--;
+                if (board.IsValid(nextPos))
+                {
+                    currentPiece.Move(nextPos.X, nextPos.Y);
+                    moved = true;
+                }
+                break;
+            case "ArrowRight":
+                nextPos.X++;
+                if (board.IsValid(nextPos))
+                {
+                    currentPiece.Move(nextPos.X, nextPos.Y);
+                    moved = true;
+                }
+                break;
+            case "ArrowDown":
+                nextPos.Y++;
+                if (board.IsValid(nextPos))
+                {
+                    currentPiece.Move(nextPos.X, nextPos.Y);
+                    score += 1;
+                    moved = true;
+                }
+                break;
+            case "ArrowUp":
+                nextPos.Rotate();
+                if (board.IsValid(nextPos))
+                {
+                    currentPiece.Rotate();
+                    moved = true;
+                }
+                break;
+            case " ": // Hard Drop
+                int finalY = board.GetGhostPosition(currentPiece);
+                score += (finalY - currentPiece.Y) * 2;
+                currentPiece.Y = finalY;
+                Drop(); // Immediate freeze
+                moved = true;
+                break;
+            case "c":
+            case "C":
+                Hold();
+                moved = true;
+                break;
+        }
+
+        if (moved)
+        {
+            StateHasChanged();
+        }
+    }
+
+    private void Hold()
+    {
+        if (!canHold || currentPiece == null) return;
+
+        if (heldPiece == null)
+        {
+            heldPiece = new Piece(currentPiece.Type);
+            currentPiece = nextPiece;
+            nextPiece = new Piece(GetNextPieceType());
+        }
+        else
+        {
+            var temp = heldPiece.Type;
+            heldPiece = new Piece(currentPiece.Type);
+            currentPiece = new Piece(temp);
+        }
+        
+        if (currentPiece != null)
+        {
+            currentPiece.X = 3;
+            currentPiece.Y = 0;
+        }
+        canHold = false;
+    }
+
+    private async void Play()
+    {
+        ResetGame();
+        StartTimer();
+        await gameContainer.FocusAsync();
+    }
+
+    private void ResetGame()
+    {
+        score = 0;
+        lines = 0;
+        level = 0;
+        isGameOver = false;
+        interval = 1000;
+        board.Reset();
+        bag.Clear();
+        heldPiece = null;
+        canHold = true;
+        currentPiece = new Piece(GetNextPieceType());
+        nextPiece = new Piece(GetNextPieceType());
+        StateHasChanged();
+    }
+
+    private char GetNextPieceType()
+    {
+        if (bag.Count == 0)
+        {
+            bag = TetrisConstants.SHAPES.Keys.ToList();
+            bag = bag.OrderBy(a => random.Next()).ToList();
+        }
+        char type = bag[0];
+        bag.RemoveAt(0);
+        return type;
+    }
+
+    private void StartTimer()
+    {
+        timer?.Stop();
+        timer?.Dispose();
+        timer = new Timer(interval);
+        timer.Elapsed += async (sender, e) => await InvokeAsync(OnTimerElapsed);
+        timer.AutoReset = true;
+        timer.Enabled = true;
+    }
+
+    private void OnTimerElapsed()
+    {
+        if (!Drop())
+        {
+            GameOver();
+        }
+        StateHasChanged();
+    }
+
+    private bool Drop()
+    {
+        if (currentPiece == null) return false;
+
+        var nextPos = currentPiece.Clone();
+        nextPos.Y++;
+
+        if (board.IsValid(nextPos))
+        {
+            currentPiece.Move(nextPos.X, nextPos.Y);
+        }
+        else
+        {
+            board.Freeze(currentPiece);
+            int cleared = board.ClearLines();
+            if (cleared > 0)
+            {
+                int[] points = { 0, TetrisConstants.Points.SINGLE, TetrisConstants.Points.DOUBLE, TetrisConstants.Points.TRIPLE, TetrisConstants.Points.TETRIS };
+                score += points[cleared] * (level + 1);
+                lines += cleared;
+                if (lines >= (level + 1) * 10)
+                {
+                    level++;
+                    interval *= 0.8;
+                    StartTimer();
+                }
+            }
+
+            if (currentPiece.Y == 0)
+            {
+                return false;
+            }
+
+            currentPiece = nextPiece;
+            nextPiece = new Piece(GetNextPieceType());
+            canHold = true;
+        }
+        return true;
+    }
+
+    private void GameOver()
+    {
+        timer?.Stop();
+        isGameOver = true;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await gameContainer.FocusAsync();
+        }
+    }
+
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+}
