@@ -1,0 +1,8 @@
+# Mark files as vendored/generated so they don't count towards language statistics
+_framework/** linguist-vendored
+lib/** linguist-vendored
+css/** linguist-vendored
+*.js linguist-generated
+*.css linguist-generated
+index.html linguist-generated
+TetrisBlazor/wwwroot/lib/** linguist-vendored

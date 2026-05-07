@@ -1,0 +1,19 @@
+## .NET
+[Bb]in/
+[Oo]bj/
+release/
+release_new/
+temp_release/
+
+## Blazor output in root (since we want to keep it for manual serving but ignore in stats/clean repo)
+_framework/
+lib/
+css/
+sample-data/
+*.br
+*.gz
+TetrisBlazor.styles.css
+favicon.png
+icon-192.png
+dotnet.js
+web.config
