@@ -206,9 +206,6 @@
 /workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/icudt_CJK.tjcz0u77k5.dat
 /workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/icudt_EFIGS.tptq2av103.dat
 /workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/icudt_no_CJK.lfu7j35m59.dat
-/workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/TetrisBlazor.609346j9wh.wasm
-/workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/TetrisBlazor.6mnxfdnhvk.pdb
-/workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/dotnet.ptwbkkpobs.js
 /workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/blazor.webassembly.66stpp682q.js.gz
 /workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/Microsoft.AspNetCore.Authorization.f7yamg8acn.wasm.gz
 /workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/Microsoft.AspNetCore.Components.i180xx2qq9.wasm.gz
@@ -416,9 +413,6 @@
 /workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/icudt_CJK.tjcz0u77k5.dat.gz
 /workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/icudt_EFIGS.tptq2av103.dat.gz
 /workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/icudt_no_CJK.lfu7j35m59.dat.gz
-/workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/TetrisBlazor.609346j9wh.wasm.gz
-/workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/TetrisBlazor.6mnxfdnhvk.pdb.gz
-/workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/dotnet.ptwbkkpobs.js.gz
 /workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/TetrisBlazor.staticwebassets.runtime.json
 /workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/TetrisBlazor.staticwebassets.endpoints.json
 /workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/TetrisBlazor.dll
@@ -1105,9 +1099,6 @@
 /workspaces/TETRIS/TetrisBlazor/obj/Release/net10.0/compressed/fq2fa76tmr-{0}-tjcz0u77k5-tjcz0u77k5.gz
 /workspaces/TETRIS/TetrisBlazor/obj/Release/net10.0/compressed/tydjfexnfb-{0}-tptq2av103-tptq2av103.gz
 /workspaces/TETRIS/TetrisBlazor/obj/Release/net10.0/compressed/e4nzac7ryq-{0}-lfu7j35m59-lfu7j35m59.gz
-/workspaces/TETRIS/TetrisBlazor/obj/Release/net10.0/compressed/rpxc3bsh2n-{0}-609346j9wh-609346j9wh.gz
-/workspaces/TETRIS/TetrisBlazor/obj/Release/net10.0/compressed/qra3ek2sah-{0}-6mnxfdnhvk-6mnxfdnhvk.gz
-/workspaces/TETRIS/TetrisBlazor/obj/Release/net10.0/compressed/90rzumvvzu-{0}-ptwbkkpobs-ptwbkkpobs.gz
 /workspaces/TETRIS/TetrisBlazor/obj/Release/net10.0/staticwebassets.build.json
 /workspaces/TETRIS/TetrisBlazor/obj/Release/net10.0/staticwebassets.build.json.cache
 /workspaces/TETRIS/TetrisBlazor/obj/Release/net10.0/staticwebassets.development.json
@@ -1118,3 +1109,12 @@
 /workspaces/TETRIS/TetrisBlazor/obj/Release/net10.0/refint/TetrisBlazor.dll
 /workspaces/TETRIS/TetrisBlazor/obj/Release/net10.0/TetrisBlazor.pdb
 /workspaces/TETRIS/TetrisBlazor/obj/Release/net10.0/ref/TetrisBlazor.dll
+/workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/TetrisBlazor.hbmouvzhgj.wasm
+/workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/TetrisBlazor.hlg475rqac.pdb
+/workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/dotnet.5vqpqwdv70.js
+/workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/TetrisBlazor.hbmouvzhgj.wasm.gz
+/workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/TetrisBlazor.hlg475rqac.pdb.gz
+/workspaces/TETRIS/TetrisBlazor/bin/Release/net10.0/wwwroot/_framework/dotnet.5vqpqwdv70.js.gz
+/workspaces/TETRIS/TetrisBlazor/obj/Release/net10.0/compressed/rpxc3bsh2n-{0}-hbmouvzhgj-hbmouvzhgj.gz
+/workspaces/TETRIS/TetrisBlazor/obj/Release/net10.0/compressed/qra3ek2sah-{0}-hlg475rqac-hlg475rqac.gz
+/workspaces/TETRIS/TetrisBlazor/obj/Release/net10.0/compressed/90rzumvvzu-{0}-5vqpqwdv70-5vqpqwdv70.gz

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TetrisBlazor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c9a2a916fd7e19f6771e8aa5787a2ad106fd848b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f36bdcb51b51a9f6a6888a8571f7f5946d5d56d3")]
 [assembly: System.Reflection.AssemblyProductAttribute("TetrisBlazor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TetrisBlazor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
